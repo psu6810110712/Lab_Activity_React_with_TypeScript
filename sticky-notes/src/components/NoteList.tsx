@@ -2,9 +2,10 @@ import type { Note } from '../types';
 
 interface NoteListProps {
   notes: Note[];
+  onDelete: (id: number) => void;
 }
 
-const NoteList = ({ notes }: NoteListProps) => {
+const NoteList = ({ notes, onDelete }: NoteListProps) => {
   if (notes.length === 0) {
     return <p>No notes yet</p>;
   }
@@ -25,6 +26,19 @@ const NoteList = ({ notes }: NoteListProps) => {
           }}
         >
           <span>{note.text}</span>
+          <button
+            onClick={() => onDelete(note.id)}
+            style={{
+              padding: '5px 10px',
+              backgroundColor: '#ff4444',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Delete
+          </button>
         </div>
       ))}
     </div>

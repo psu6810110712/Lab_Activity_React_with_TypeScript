@@ -1,12 +1,19 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NoteForm from './components/NoteForm';
 import NoteList from './components/NoteList';
 import type { Note } from './types';
 
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<Note[]>(() => {
+    const saved = localStorage.getItem('notes');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
 
   const addNote = (text: string) => {
     const newNote: Note = {
@@ -14,6 +21,10 @@ function App() {
       text: text
     };
     setNotes([...notes, newNote]);
+  };
+
+  const deleteNote = (id: number) => {
+    setNotes(notes.filter((note) => note.id !== id));
   };
 
   return (
@@ -24,7 +35,7 @@ function App() {
       <NoteForm onAdd={addNote} />
 
       <div style={{ marginTop: '20px' }}>
-        <NoteList notes={notes} />
+        <NoteList notes={notes} onDelete={deleteNote} />
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ const NoteForm = ({ onAdd }: NoteFormProps) => {
       <input
         type="text"
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
         placeholder="Enter your note..."
         style={{ padding: '8px', width: '300px', marginRight: '10px' }}
       />
